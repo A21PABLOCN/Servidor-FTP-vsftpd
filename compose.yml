@@ -1,0 +1,23 @@
+services:
+  ftp:
+    build: ./vsftpd
+    networks:
+      red:
+        ipv4_address: 192.168.0.10
+    volumes:
+      - ./vsftpd/conf/welcome.banner:/etc/vsftpd/welcome.banner
+      - ./vsftpd/conf/vsftpd.conf:/etc/vsftpd.conf
+      - ./vsftpd/conf/vsftpd.pem:/etc/ssl/certs/vsftpd.pem
+      - ./vsftpd/conf/vsftpd1.pem:/etc/ssl/private/vsftpd.pem
+
+  cliente:
+    build: ./debian
+    networks:
+      red:
+        ipv4_address: 192.168.0.11
+
+networks:
+  red:
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
